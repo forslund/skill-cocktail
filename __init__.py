@@ -30,17 +30,11 @@ def ingredients(drink):
 class CocktailSkill(MycroftSkill):
     @intent_file_handler('Recipie.intent')
     def get_recipie(self, message):
-        LOG.info('!!!!!!!!!!!')
-        LOG.info(message.data['recepie'])
-        cocktail = search_cocktail(message.data['recepie'])
+        cocktail = search_cocktail(message.data['drink'])
         if cocktail:
-            ingredient_speech = 'You\'ll need '
-            for i in ingredients(cocktail)[:-1]:
-                print(i)
-                ingredient_speech += ', ' + i
-            ingredient_speech += ' and '
-            ingredient_speech += ingredients(cocktail)[-1]
-            self.speak(ingredient_speech)
+            self.speak_dialog('YouWillNeed', {
+                'ingredients': ', '.join(ingredients(cocktail)[:-1]),
+                'final_ingredient': ingredients(cocktail)[-1]})
             time.sleep(1)
             self.speak(cocktail['strInstructions'])
 
