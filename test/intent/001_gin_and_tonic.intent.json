@@ -1,0 +1,5 @@
+{
+  "utterance": "how do i mix a gin and tonic",
+  "intent_type": "Recipie.intent",
+  "expected_dialog": "YouWillNeed"
+}
