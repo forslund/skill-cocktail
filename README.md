@@ -1,14 +1,14 @@
 ## Cocktail
-Cocktail recipies using thecocktaildb
+A Skill adding drink recipies to Mycroft
 
 ## Description 
-Lets mycroft read drink and cocktail recipies.
-
-For devices with screen support, conditions are briefly shown.
+The skill reads the drink mixing instructions for you and lists all the required ingredients for your favourite drinks.
+The skill uses the cocktail and drink database  https://thecocktaildb.com.
 
 ## Examples 
-* "How do I make a moscow mule"
-* "How do I mix a gin and tonic"
+* "how do you make a gin and Tonic"
+* "how would I mix a Moscow Mule"
 
 ## Credits 
 Åke Forslund
+
