@@ -4,7 +4,7 @@ import requests
 import time
 
 
-API_KEY = '1'
+API_KEY = '2432'
 API_URL = 'https://www.thecocktaildb.com/api/json/v1/{}/'.format(API_KEY)
 SEARCH = API_URL + 'search.php'
 
