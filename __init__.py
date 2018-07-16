@@ -1,4 +1,5 @@
-from mycroft import MycroftSkill, intent_file_handler
+from mycroft import MycroftSkill, intent_file_handler, intent_handler, \
+                    AdaptIntent
 from mycroft.util.log import LOG
 import requests
 import time
@@ -37,6 +38,21 @@ class CocktailSkill(MycroftSkill):
                 'final_ingredient': ingredients(cocktail)[-1]})
             time.sleep(1)
             self.speak(cocktail['strInstructions'])
+            self.set_context('IngredientContext', str(ingredients(cocktail)))
+
+    def repeat_ingredients(self, ingredients):
+        self.speak(ingredients)
+
+    @intent_handler(AdaptIntent().require('Ingredients').require('What')
+                                 .require('IngredientContext'))
+    def what_were_ingredients(self, message):
+        return self.repeat_ingredients(message.data['IngredientContext'])
+
+    @intent_handler(AdaptIntent().require('Ingredients').require('TellMe')
+                                 .require('Again')
+                                 .require('IngredientContext'))
+    def tell_ingredients_again(self, message):
+        return self.repeat_ingredients(message.data['IngredientContext'])
 
 
 def create_skill():
