@@ -25,8 +25,24 @@ def ingredients(drink):
             break
         ingredients.append(' '.join((drink['strMeasure' + str(i)],
                                     drink['strIngredient' + str(i)])))
-    return ingredients
+    return nice_ingredients(ingredients)
 
+def nice_ingredients(ingredients):
+    units = {
+        'oz': 'ounce',
+        '1 tbl': '1 table spoon',
+        'tbl': 'table spoons',
+        '1 tsp': 'tea spoon',
+        'tsp': 'tea spoons',
+        'ml': 'milliliter',
+        'cl': 'centiliter'
+    }
+    ret = []
+    for i in ingredients:
+        for word, replacement in units.items():
+            i = i.lower().replace(word, replacement)
+        ret.append(i)
+    return ret
 
 class CocktailSkill(MycroftSkill):
     @intent_file_handler('Recipie.intent')
