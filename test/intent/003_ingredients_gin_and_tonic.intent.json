@@ -1,0 +1,5 @@
+{
+  "utterance": "what are the ingredients for a gin and tonic",
+  "intent_type": "Needed.intent",
+  "expected_dialog": "YouWillNeed"
+}
