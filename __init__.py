@@ -12,7 +12,8 @@ SEARCH = API_URL + 'search.php'
 
 def search_cocktail(name):
     r = requests.get(SEARCH, params={'s': name})
-    if 200 <= r.status_code < 300:
+    if (200 <= r.status_code < 300 and 'drinks' in r.json() and
+            r.json()['drinks']):
         return r.json()['drinks'][0]
     else:
         return None
