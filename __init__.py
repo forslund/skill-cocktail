@@ -35,8 +35,8 @@ def nice_ingredients(ingredients):
         'tbl': 'table spoons',
         '1 tsp': 'tea spoon',
         'tsp': 'tea spoons',
-        'ml': 'milliliter',
-        'cl': 'centiliter'
+        'ml ': 'milliliter ',
+        'cl ': 'centiliter '
     }
     ret = []
     for i in ingredients:
