@@ -56,9 +56,22 @@ class CocktailSkill(MycroftSkill):
             time.sleep(1)
             self.speak(cocktail['strInstructions'])
             self.set_context('IngredientContext', str(ingredients(cocktail)))
+        else:
+            self.speak_dialog('NotFound')
 
     def repeat_ingredients(self, ingredients):
         self.speak(ingredients)
+
+    @intent_file_handler('Needed.intent')
+    def get_ingredients(self, message):
+        cocktail = search_cocktail(message.data['drink'])
+        if cocktail:
+            self.speak_dialog('YouWillNeed', {
+                'ingredients': ', '.join(ingredients(cocktail)[:-1]),
+                'final_ingredient': ingredients(cocktail)[-1]})
+            self.set_context('IngredientContext', str(ingredients(cocktail)))
+        else:
+            self.speak_dialog('NotFound')
 
     @intent_handler(AdaptIntent().require('Ingredients').require('What')
                                  .require('IngredientContext'))
