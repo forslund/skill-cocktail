@@ -1,14 +1,21 @@
-## Cocktail
-A Skill adding drink recipies to Mycroft
+# <img src='https://rawgithub.com/FortAwesome/Font-Awesome/master/advanced-options/raw-svg/solid/cocktail.svg' card_color='#0080b0' width='50' height='50' style='vertical-align:bottom'/> Cocktails
+Get help mixing drinks.
 
-## Description 
-The skill reads the drink mixing instructions for you and lists all the required ingredients for your favourite drinks.
-The skill uses the cocktail and drink database  https://thecocktaildb.com.
+## About 
+Let Mycroft help you mix better and more fun drinks and cocktails. When asked Mycroft provides ingredients and mixing instructions for various drinks. The skill uses the fabulous [theCocktailDB](https://thecocktaildb.com/). 
 
 ## Examples 
-* "how do you make a gin and Tonic"
-* "how would I mix a Moscow Mule"
+* "how do I mix a Moscow Mule"
+* "how do I make a daiquiri"
 
 ## Credits 
-Åke Forslund
+@forslund
+
+## Category
+**Information**
+
+## Tags
+#drinks
+#recipies
+#cocktails
 
