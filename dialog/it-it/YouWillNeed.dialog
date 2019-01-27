@@ -1,0 +1,3 @@
+Servono {ingredients} e {final_ingredient}
+Ti servono {ingredients} e {final_ingredient}
+Gli ingredienti richiesti sono: {ingredients} e {final_ingredient}
