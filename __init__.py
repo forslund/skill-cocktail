@@ -22,10 +22,16 @@ def search_cocktail(name):
 def ingredients(drink):
     ingredients = []
     for i in range(1, 15):
-        if not drink['strIngredient' + str(i)]:
+        ingredient_key = 'strIngredient' + str(i)
+        measure_key = 'strMeasure' + str(i)
+        if not drink[ingredient_key]:
             break
-        ingredients.append(' '.join((drink['strMeasure' + str(i)],
-                                    drink['strIngredient' + str(i)])))
+        if drink[measure_key] is not None:
+            ingredients.append(' '.join((drink[measure_key],
+                                         drink[ingredient_key])))
+        else:
+            ingredients.append(drink[ingredient_key])
+
     return nice_ingredients(ingredients)
 
 def nice_ingredients(ingredients):
