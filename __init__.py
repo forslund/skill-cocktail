@@ -1,6 +1,5 @@
 from mycroft import MycroftSkill, intent_file_handler, intent_handler, \
                     AdaptIntent
-from mycroft.util.log import LOG
 import requests
 import time
 
@@ -11,6 +10,7 @@ SEARCH = API_URL + 'search.php'
 
 
 def search_cocktail(name):
+    """Search the Cocktails DB for a drink."""
     r = requests.get(SEARCH, params={'s': name})
     if (200 <= r.status_code < 300 and 'drinks' in r.json() and
             r.json()['drinks']):
@@ -20,6 +20,7 @@ def search_cocktail(name):
 
 
 def ingredients(drink):
+    """Get ingredients from drink data from the cocktails DB."""
     ingredients = []
     for i in range(1, 15):
         ingredient_key = 'strIngredient' + str(i)
@@ -29,12 +30,14 @@ def ingredients(drink):
         if drink[measure_key] is not None:
             ingredients.append(' '.join((drink[measure_key],
                                          drink[ingredient_key])))
-        else:
+        else:  # If there is no measurement for the ingredient ignore it
             ingredients.append(drink[ingredient_key])
 
     return nice_ingredients(ingredients)
 
+
 def nice_ingredients(ingredients):
+    """Make ingredient list easier to pronounce."""
     units = {
         'oz': 'ounce',
         '1 tbl': '1 table spoon',
@@ -50,6 +53,7 @@ def nice_ingredients(ingredients):
             i = i.lower().replace(word, replacement)
         ret.append(i)
     return ret
+
 
 class CocktailSkill(MycroftSkill):
     @intent_file_handler('Recipie.intent')
@@ -82,6 +86,7 @@ class CocktailSkill(MycroftSkill):
     @intent_handler(AdaptIntent().require('Ingredients').require('What')
                                  .require('IngredientContext'))
     def what_were_ingredients(self, message):
+        """Context aware handler if the user asks for a repeat."""
         return self.repeat_ingredients(message.data['IngredientContext'])
 
     @intent_handler(AdaptIntent().require('Ingredients').require('TellMe')
