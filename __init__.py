@@ -10,8 +10,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <http://www.gnu.org/licenses/>.
 #
-from mycroft import MycroftSkill, intent_file_handler, intent_handler, \
-                    AdaptIntent
+from mycroft import MycroftSkill, intent_handler, AdaptIntent
 import requests
 import time
 
@@ -89,12 +88,11 @@ def nice_ingredients(ingredients):
 
 
 class CocktailSkill(MycroftSkill):
-
-    @intent_file_handler('Random.intent')
+    @intent_handler('Random.intent')
     def get_random(self, message):
         cocktail = random_cocktail()
 
-        self.speak_dialog("RandomDrink", {"drink":cocktail['strDrink']})
+        self.speak_dialog("RandomDrink", {"drink": cocktail['strDrink']})
         time.sleep(1)
         self.speak_dialog('YouWillNeed', {
             'ingredients': ', '.join(ingredients(cocktail)[:-1]),
@@ -103,8 +101,7 @@ class CocktailSkill(MycroftSkill):
         self.speak(cocktail['strInstructions'])
         self.set_context('IngredientContext', str(ingredients(cocktail)))
 
-
-    @intent_file_handler('Recipe.intent')
+    @intent_handler('Recipe.intent')
     def get_recipe(self, message):
         cocktail = search_cocktail(message.data['drink'])
         if cocktail:
@@ -120,7 +117,7 @@ class CocktailSkill(MycroftSkill):
     def repeat_ingredients(self, ingredients):
         self.speak(ingredients)
 
-    @intent_file_handler('Needed.intent')
+    @intent_handler('Needed.intent')
     def get_ingredients(self, message):
         cocktail = search_cocktail(message.data['drink'])
         if cocktail:
