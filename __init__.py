@@ -19,11 +19,32 @@ import time
 API_KEY = '2432'
 API_URL = 'https://www.thecocktaildb.com/api/json/v1/{}/'.format(API_KEY)
 SEARCH = API_URL + 'search.php'
+RANDOM = API_URL + 'random.php'
 
 
 def search_cocktail(name):
     """Search the Cocktails DB for a drink."""
     r = requests.get(SEARCH, params={'s': name})
+    if (200 <= r.status_code < 300 and 'drinks' in r.json() and
+            r.json()['drinks']):
+        return r.json()['drinks'][0]
+    else:
+        return None
+
+
+def search_ingredient(ingedient):
+    """Search the Cocktails DB for a drink."""
+    r = requests.get(SEARCH, params={'s': name})
+    if (200 <= r.status_code < 300 and 'drinks' in r.json() and
+            r.json()['drinks']):
+        return r.json()['drinks'][0]
+    else:
+        return None
+
+
+def random_cocktail():
+    """Get a random drink."""
+    r = requests.get(RANDOM)
     if (200 <= r.status_code < 300 and 'drinks' in r.json() and
             r.json()['drinks']):
         return r.json()['drinks'][0]
@@ -68,8 +89,23 @@ def nice_ingredients(ingredients):
 
 
 class CocktailSkill(MycroftSkill):
-    @intent_file_handler('Recipie.intent')
-    def get_recipie(self, message):
+
+    @intent_file_handler('Random.intent')
+    def get_random(self, message):
+        cocktail = random_cocktail()
+
+        self.speak_dialog("RandomDrink", {"drink":cocktail['strDrink']})
+        time.sleep(1)
+        self.speak_dialog('YouWillNeed', {
+            'ingredients': ', '.join(ingredients(cocktail)[:-1]),
+            'final_ingredient': ingredients(cocktail)[-1]})
+        time.sleep(1)
+        self.speak(cocktail['strInstructions'])
+        self.set_context('IngredientContext', str(ingredients(cocktail)))
+
+
+    @intent_file_handler('Recipe.intent')
+    def get_recipe(self, message):
         cocktail = search_cocktail(message.data['drink'])
         if cocktail:
             self.speak_dialog('YouWillNeed', {
