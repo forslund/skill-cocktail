@@ -131,15 +131,15 @@ class CocktailSkill(MycroftSkill):
         else:
             self.speak_dialog('NotFound')
 
-    @intent_handler(AdaptIntent().require('Ingredients').require('What')
-                                 .require('IngredientContext'))
+    @intent_handler(AdaptIntent("").require('Ingredients').require('What')
+                                   .require('IngredientContext'))
     def what_were_ingredients(self, message):
         """Context aware handler if the user asks for a repeat."""
         return self.repeat_ingredients(message.data['IngredientContext'])
 
-    @intent_handler(AdaptIntent().require('Ingredients').require('TellMe')
-                                 .require('Again')
-                                 .require('IngredientContext'))
+    @intent_handler(AdaptIntent("").require('Ingredients').require('TellMe')
+                                   .require('Again')
+                                   .require('IngredientContext'))
     def tell_ingredients_again(self, message):
         return self.repeat_ingredients(message.data['IngredientContext'])
 
