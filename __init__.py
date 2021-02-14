@@ -13,13 +13,12 @@
 from mycroft import MycroftSkill, intent_handler, AdaptIntent
 import requests
 import time
-
+from google_trans_new import google_translator 
 
 API_KEY = '2432'
 API_URL = 'https://www.thecocktaildb.com/api/json/v1/{}/'.format(API_KEY)
 SEARCH = API_URL + 'search.php'
 RANDOM = API_URL + 'random.php'
-
 
 def search_cocktail(name):
     """Search the Cocktails DB for a drink."""
@@ -51,7 +50,7 @@ def random_cocktail():
         return None
 
 
-def ingredients(drink):
+def ingredients(drink, lang):
     """Get ingredients from drink data from the cocktails DB."""
     ingredients = []
     for i in range(1, 15):
@@ -65,52 +64,69 @@ def ingredients(drink):
         else:  # If there is no measurement for the ingredient ignore it
             ingredients.append(drink[ingredient_key])
 
-    return nice_ingredients(ingredients)
+    return nice_ingredients(ingredients, lang)
 
 
-def nice_ingredients(ingredients):
+def nice_ingredients(ingredients, lang):
     """Make ingredient list easier to pronounce."""
+    translator = google_translator()
     units = {
-        'oz': 'ounce',
-        '1 tbl': '1 table spoon',
-        'tbl': 'table spoons',
-        '1 tsp': 'tea spoon',
-        'tsp': 'tea spoons',
-        'ml ': 'milliliter ',
-        'cl ': 'centiliter '
+            'oz': 'ounce',
+            '1 tbl': '1 table spoon',
+            'tbl': 'table spoons',
+            '1 tsp': '1 tea spoon',
+            'tsp': 'tea spoons',
+            'ml ': 'milliliter ',
+            'cl ': 'centiliter '
     }
     ret = []
     for i in ingredients:
         for word, replacement in units.items():
             i = i.lower().replace(word, replacement)
-        ret.append(i)
+        if i is not None:
+            if lang != 'en':
+                i = translator.translate(i, lang_src='en', lang_tgt=lang)
+            ret.append(i)
     return ret
 
 
 class CocktailSkill(MycroftSkill):
+
+    instructionMapper = {
+        "de": "strInstructionsDE",
+        "en": "strInstructions",
+        "fr": "strInstructionsFR",
+        "es": "strInstructionsES"
+        }
+
+    def initialize(self):
+        self.language = self.config_core.get('lang').split('-')[0]
+        self.instructionKey = self.instructionMapper.get(self.language, "strInstructions")
+
     @intent_handler('Random.intent')
     def get_random(self, message):
         cocktail = random_cocktail()
-
         self.speak_dialog("RandomDrink", {"drink": cocktail['strDrink']})
         time.sleep(1)
-        self.speak_dialog('YouWillNeed', {
-            'ingredients': ', '.join(ingredients(cocktail)[:-1]),
-            'final_ingredient': ingredients(cocktail)[-1]})
-        time.sleep(1)
-        self.speak(cocktail['strInstructions'])
-        self.set_context('IngredientContext', str(ingredients(cocktail)))
+        self.handle_cocktail(cocktail)
 
     @intent_handler('Recipe.intent')
     def get_recipe(self, message):
         cocktail = search_cocktail(message.data['drink'])
+        self.handle_cocktail(cocktail)
+
+    def handle_cocktail(self, cocktail):
         if cocktail:
+            ingreds = ingredients(cocktail, self.language)
             self.speak_dialog('YouWillNeed', {
-                'ingredients': ', '.join(ingredients(cocktail)[:-1]),
-                'final_ingredient': ingredients(cocktail)[-1]})
+                'ingredients': ', '.join(ingreds[:-1]),
+                'final_ingredient': ingreds[-1]})
             time.sleep(1)
-            self.speak(cocktail['strInstructions'])
-            self.set_context('IngredientContext', str(ingredients(cocktail)))
+            instructions = cocktail.get(self.instructionKey, None)
+            if instructions is None:
+                instructions = cocktail["strInstructions"]
+            self.speak(instructions)
+            self.set_context('IngredientContext', str(', '.join(ingreds)))
         else:
             self.speak_dialog('NotFound')
 
