@@ -1,3 +1,7 @@
+from ovos_workshop.decorators import intent_handler
+from ovos_workshop.skills import OVOSSkill
+from ovos_utils.intents import IntentBuilder
+from ovos_bus_client.message import Message
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
 # Foundation, either version 3 of the License, or (at your option) any later
@@ -10,7 +14,8 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <http://www.gnu.org/licenses/>.
 #
-from mycroft import MycroftSkill, intent_handler, AdaptIntent
+# TODO: Remove all Mycroft imports
+# from mycroft import MycroftSkill, intent_handler, AdaptIntent
 import requests
 import time
 
@@ -87,7 +92,7 @@ def nice_ingredients(ingredients):
     return ret
 
 
-class CocktailSkill(MycroftSkill):
+class CocktailSkill(OVOSSkill):
     @intent_handler('Random.intent')
     def get_random(self, message):
         cocktail = random_cocktail()
@@ -141,5 +146,6 @@ class CocktailSkill(MycroftSkill):
         return self.repeat_ingredients(message.data['IngredientContext'])
 
 
+# TODO: Remove create_skill() function
 def create_skill():
     return CocktailSkill()
