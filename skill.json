@@ -1,1 +1,50 @@
-{}
+{
+    "title": "Cocktails",
+    "url": "https://github.com/OscillateLabsLLC/skill-cocktail",
+    "summary": "Get help mixing drinks.",
+    "short_description": "Get help mixing drinks.",
+    "description": "Let Mycroft help you mix better and more fun drinks and cocktails. When asked Mycroft provides ingredients and mixing instructions for various drinks. The skill uses the fabulous [theCocktailDB](https://thecocktaildb.com/).",
+    "examples": [
+        "how do I mix a Moscow Mule",
+        "how do I make a daiquiri"
+    ],
+    "desktopFile": false,
+    "warning": "",
+    "systemDeps": false,
+    "requirements": {
+        "python": [
+            "ovos-bus-client",
+            "ovos-plugin-manager",
+            "ovos-utils",
+            "ovos-workshop"
+        ],
+        "system": {},
+        "skill": []
+    },
+    "incompatible_skills": [],
+    "platforms": [
+        "i386",
+        "x86_64",
+        "ia64",
+        "arm64",
+        "arm"
+    ],
+    "branch": "master",
+    "license": "Unknown",
+    "icon": "https://raw.githack.com/FortAwesome/Font-Awesome/master/svgs/solid/cocktail.svg",
+    "category": "Information",
+    "categories": [
+        "Information"
+    ],
+    "tags": [
+        "drinks",
+        "recipies",
+        "cocktails"
+    ],
+    "credits": [
+        "forslund"
+    ],
+    "skillname": "skill-cocktail",
+    "authorname": "OscillateLabsLLC",
+    "foldername": null
+}
