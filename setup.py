@@ -3,8 +3,8 @@ from setuptools import setup
 from os import walk, path
 
 BASEDIR = path.abspath(path.dirname(__file__))
-URL = "TODO: PLACEHOLDER"
-SKILL_CLAZZ = "undefined"  # needs to match __init__.py class name
+URL = "https://github.com/forslund/skill-cocktail"
+SKILL_CLAZZ = "CocktailSkill"  # needs to match __init__.py class name
 PYPI_NAME = "skill-cocktail"  # pip install PYPI_NAME
 
 # below derived from github url to ensure standard skill_id
@@ -12,7 +12,7 @@ SKILL_AUTHOR, SKILL_NAME = URL.split(".com/")[-1].split("/")
 SKILL_PKG = SKILL_NAME.lower().replace("-", "_")
 PLUGIN_ENTRY_POINT = f"{SKILL_NAME.lower()}.{SKILL_AUTHOR.lower()}={SKILL_PKG}:{SKILL_CLAZZ}"
 # skill_id=package_name:SkillClass
-BASE_PATH = BASE_PATH = path.abspath(path.join(path.dirname(__file__), "src"))
+BASE_PATH = BASE_PATH = path.abspath(path.join(path.dirname(__file__), ""))
 
 
 def get_version():
@@ -68,14 +68,14 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url=URL,
-    author="TODO: Your Name",
-    author_email="TODO: Your Email",
-    license="Apache-2.0",
+    author="Åke Forslund",
+    author_email="ake.forslund@gmail.com",
+    license="GPL",
     package_dir={SKILL_PKG: ""},
     package_data={SKILL_PKG: find_resource_files()},
     packages=[SKILL_PKG],
     include_package_data=True,
     install_requires=get_requirements("requirements.txt"),
-    keywords="ovos skill voice assistant",
+    keywords="ovos skill voice assistant neon",
     entry_points={"ovos.plugin.skill": PLUGIN_ENTRY_POINT},
 )
