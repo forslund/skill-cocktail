@@ -32,9 +32,9 @@ def search_cocktail(name):
     return None
 
 
-def search_ingredient(ingedient):
+def search_ingredient(ingredient):
     """Search the Cocktails DB for a drink."""
-    r = requests.get(SEARCH, params={"s": name}, timeout=3)
+    r = requests.get(SEARCH, params={"s": ingredient}, timeout=3)
     if 200 <= r.status_code < 300 and "drinks" in r.json() and r.json()["drinks"]:
         return r.json()["drinks"][0]
     return None
