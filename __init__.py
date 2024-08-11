@@ -27,7 +27,8 @@ RANDOM = API_URL + "random.php"
 def search_cocktail(name):
     """Search the Cocktails DB for a drink."""
     r = requests.get(SEARCH, params={"s": name}, timeout=3)
-    if 200 <= r.status_code < 300 and "drinks" in r.json() and r.json().get("drinks"):
+    if (200 <= r.status_code < 300 and "drinks" in r.json() and
+            r.json().get("drinks")):
         return r.json()["drinks"][0]
     return None
 
@@ -35,7 +36,8 @@ def search_cocktail(name):
 def search_ingredient(ingredient):
     """Search the Cocktails DB for a drink."""
     r = requests.get(SEARCH, params={"s": ingredient}, timeout=3)
-    if 200 <= r.status_code < 300 and "drinks" in r.json() and r.json()["drinks"]:
+    if (200 <= r.status_code < 300 and "drinks" in r.json() and
+            r.json()["drinks"]):
         return r.json()["drinks"][0]
     return None
 
@@ -43,7 +45,8 @@ def search_ingredient(ingredient):
 def random_cocktail():
     """Get a random drink."""
     r = requests.get(RANDOM, timeout=3)
-    if 200 <= r.status_code < 300 and "drinks" in r.json() and r.json()["drinks"]:
+    if (200 <= r.status_code < 300 and "drinks" in r.json() and
+            r.json()["drinks"]):
         return r.json()["drinks"][0]
     return None
 
@@ -57,7 +60,8 @@ def ingredients(drink):
         if not drink[ingredient_key]:
             break
         if drink[measure_key] is not None:
-            ingredients.append(" ".join((drink[measure_key], drink[ingredient_key])))
+            ingredients.append(" ".join((drink[measure_key],
+                                         drink[ingredient_key])))
         else:  # If there is no measurement for the ingredient ignore it
             ingredients.append(drink[ingredient_key])
 
@@ -92,7 +96,10 @@ class CocktailSkill(OVOSSkill):
         time.sleep(1)
         self.speak_dialog(
             "YouWillNeed",
-            {"ingredients": ", ".join(ingredients(cocktail)[:-1]), "final_ingredient": ingredients(cocktail)[-1]},
+            {
+                "ingredients": ", ".join(ingredients(cocktail)[:-1]),
+                "final_ingredient": ingredients(cocktail)[-1]
+            },
         )
         time.sleep(1)
         self.speak(cocktail["strInstructions"])
@@ -104,7 +111,9 @@ class CocktailSkill(OVOSSkill):
         if cocktail:
             self.speak_dialog(
                 "YouWillNeed",
-                {"ingredients": ", ".join(ingredients(cocktail)[:-1]), "final_ingredient": ingredients(cocktail)[-1]},
+                {
+                    "ingredients": ", ".join(ingredients(cocktail)[:-1]),
+                    "final_ingredient": ingredients(cocktail)[-1]},
             )
             time.sleep(1)
             self.speak(cocktail["strInstructions"])
@@ -121,19 +130,26 @@ class CocktailSkill(OVOSSkill):
         if cocktail:
             self.speak_dialog(
                 "YouWillNeed",
-                {"ingredients": ", ".join(ingredients(cocktail)[:-1]), "final_ingredient": ingredients(cocktail)[-1]},
+                {"ingredients": ", ".join(ingredients(cocktail)[:-1]),
+                 "final_ingredient": ingredients(cocktail)[-1]},
             )
             self.set_context("IngredientContext", str(ingredients(cocktail)))
         else:
             self.speak_dialog("NotFound")
 
-    @intent_handler(IntentBuilder("").require("Ingredients").require("What").require("IngredientContext"))
+    @intent_handler(
+            IntentBuilder("").require("Ingredients")
+                             .require("What")
+                             .require("IngredientContext"))
     def what_were_ingredients(self, message: Message):
         """Context aware handler if the user asks for a repeat."""
         return self.repeat_ingredients(message.data["IngredientContext"])
 
     @intent_handler(
-        IntentBuilder("").require("Ingredients").require("TellMe").require("Again").require("IngredientContext")
+        IntentBuilder("").require("Ingredients")
+                         .require("TellMe")
+                         .require("Again")
+                         .require("IngredientContext")
     )
     def tell_ingredients_again(self, message: Message):
         return self.repeat_ingredients(message.data["IngredientContext"])
