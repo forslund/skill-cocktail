@@ -1,6 +1,6 @@
 {
     "title": "Cocktails",
-    "url": "https://github.com/OscillateLabsLLC/skill-cocktail",
+    "url": "https://github.com/forslund/skill-cocktail",
     "summary": "Get help mixing drinks.",
     "short_description": "Get help mixing drinks.",
     "description": "Let Mycroft help you mix better and more fun drinks and cocktails. When asked Mycroft provides ingredients and mixing instructions for various drinks. The skill uses the fabulous [theCocktailDB](https://thecocktaildb.com/).",
@@ -45,6 +45,6 @@
         "forslund"
     ],
     "skillname": "skill-cocktail",
-    "authorname": "OscillateLabsLLC",
+    "authorname": "forslund",
     "foldername": null
 }
