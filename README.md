@@ -2,7 +2,7 @@
 Get help mixing drinks.
 
 ## About 
-Let Mycroft help you mix better and more fun drinks and cocktails. When asked Mycroft provides ingredients and mixing instructions for various drinks. The skill uses the fabulous [theCocktailDB](https://thecocktaildb.com/). 
+Let OVOS help you mix better and more fun drinks and cocktails. When asked the assistant provides ingredients and mixing instructions for various drinks. The skill uses the fabulous [theCocktailDB](https://thecocktaildb.com/). 
 
 ## Examples 
 * "how do I mix a Moscow Mule"
